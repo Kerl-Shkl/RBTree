@@ -23,9 +23,11 @@ public:
     void LeftRotate(std::shared_ptr<Node> x);
     void RightRotate(std::shared_ptr<Node> x);
 
+    // protected:
     std::shared_ptr<Node> root;
 
     friend class Rotate_fixture;
+    friend class InsertFixuper_fixture;
 };
 
 #endif  // end of include guard: INCLUDE_RBTREE_H

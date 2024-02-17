@@ -15,7 +15,7 @@ void InsertFixuper::FixUp(std::shared_ptr<Node> z)
             if (RBTree::isRed(uncle)) {
                 parent->color = NodeColor::black;
                 uncle->color = NodeColor::black;
-                grandpa->color = NodeColor::black;
+                grandpa->color = NodeColor::red;
                 z = grandpa;
             }
             else {
@@ -27,6 +27,7 @@ void InsertFixuper::FixUp(std::shared_ptr<Node> z)
                 }
                 parent->color = NodeColor::black;
                 grandpa->color = NodeColor::red;
+                tree.RightRotate(grandpa);
             }
         }
         else {
@@ -46,6 +47,7 @@ void InsertFixuper::FixUp(std::shared_ptr<Node> z)
                 }
                 parent->color = NodeColor::black;
                 grandpa->color = NodeColor::red;
+                tree.LeftRotate(grandpa);
             }
         }
     }
