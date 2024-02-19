@@ -22,12 +22,13 @@ public:
     static bool isLeftDesc(const std::shared_ptr<Node>& x);
     static bool isRightDesc(const std::shared_ptr<Node>& x);
     static bool isRed(const std::shared_ptr<Node>& x);
+    static bool isBlack(const std::shared_ptr<Node>& x);
     std::shared_ptr<Node> findParent(int value);
     void LeftRotate(std::shared_ptr<Node> x);
     void RightRotate(std::shared_ptr<Node> x);
     void doInsertFixUp(std::shared_ptr<Node> x);
 
-protected:
+    // protected:
     std::shared_ptr<Node> root;
 
     friend class RBTree_fixture;
