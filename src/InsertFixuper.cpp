@@ -8,47 +8,24 @@ InsertFixuper::InsertFixuper(RBTree& rbtree)
 void InsertFixuper::FixUp(std::shared_ptr<Node> z)
 {
     while (RBTree::isRed(z->parent.lock())) {
-        updateAncestors(z);
-        if (RBTree::isLeftDesc(parent)) {
-            auto uncle = getUncle();
-            if (RBTree::isRed(uncle)) {
-                parent->color = NodeColor::black;
-                uncle->color = NodeColor::black;
-                grandpa->color = NodeColor::red;
-                z = grandpa;
-            }
-            else {
-                if (RBTree::isRightDesc(z)) {
-                    z = parent;
-                    tree.LeftRotate(z);
-                    updateAncestors(z);
-                }
-                parent->color = NodeColor::black;
-                grandpa->color = NodeColor::red;
-                tree.RightRotate(grandpa);
-            }
-        }
-        else {
-            auto uncle = getUncle();
-            if (RBTree::isRed(uncle)) {
-                parent->color = NodeColor::black;
-                uncle->color = NodeColor::black;
-                grandpa->color = NodeColor::black;
-                z = grandpa;
-            }
-            else {
-                if (RBTree::isLeftDesc(z)) {
-                    z = parent;
-                    tree.RightRotate(z);
-                    updateAncestors(z);
-                }
-                parent->color = NodeColor::black;
-                grandpa->color = NodeColor::red;
-                tree.LeftRotate(grandpa);
-            }
-        }
+        FixUpNode(z);
     }
     tree.root->color = NodeColor::black;
+}
+
+void InsertFixuper::FixUpNode(std::shared_ptr<Node>& z)
+{
+    updateAncestors(z);
+    auto uncle = getUncle();
+    if (RBTree::isRed(uncle)) {
+        parent->color = NodeColor::black;
+        uncle->color = NodeColor::black;
+        grandpa->color = NodeColor::red;
+        z = grandpa;
+    }
+    else {
+        SolveRotation(z);
+    }
 }
 
 void InsertFixuper::updateAncestors(const std::shared_ptr<Node>& child)
@@ -61,4 +38,31 @@ std::shared_ptr<Node> InsertFixuper::getUncle() const
 {
 
     return RBTree::isLeftDesc(parent) ? grandpa->right : grandpa->left;
+}
+
+void InsertFixuper::SolveRotation(std::shared_ptr<Node>& z)
+{
+    if (RBTree::isLeftDesc(parent)) {
+        doSolveRotation(z, &RBTree::isRightDesc, &RBTree::LeftRotate,
+                        &RBTree::RightRotate);
+    }
+    else {
+        doSolveRotation(z, &RBTree::isLeftDesc, &RBTree::RightRotate,
+                        &RBTree::LeftRotate);
+    }
+}
+
+void InsertFixuper::doSolveRotation(
+    std::shared_ptr<Node>& z, bool (*isSideDesc)(const std::shared_ptr<Node>&),
+    void (RBTree::*firstRotate)(std::shared_ptr<Node>),
+    void (RBTree::*secondRotate)(std::shared_ptr<Node>))
+{
+    if (isSideDesc(z)) {
+        z = parent;
+        (tree.*firstRotate)(z);
+        updateAncestors(z);
+    }
+    parent->color = NodeColor::black;
+    grandpa->color = NodeColor::red;
+    (tree.*secondRotate)(grandpa);
 }
