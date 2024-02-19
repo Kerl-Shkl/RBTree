@@ -8,10 +8,9 @@ InsertFixuper::InsertFixuper(RBTree& rbtree)
 void InsertFixuper::FixUp(std::shared_ptr<Node> z)
 {
     while (RBTree::isRed(z->parent.lock())) {
-        auto parent = z->parent.lock();
-        auto grandpa = parent->parent.lock();
+        updateAncestors(z);
         if (RBTree::isLeftDesc(parent)) {
-            auto uncle = grandpa->right;
+            auto uncle = getUncle();
             if (RBTree::isRed(uncle)) {
                 parent->color = NodeColor::black;
                 uncle->color = NodeColor::black;
@@ -22,8 +21,7 @@ void InsertFixuper::FixUp(std::shared_ptr<Node> z)
                 if (RBTree::isRightDesc(z)) {
                     z = parent;
                     tree.LeftRotate(z);
-                    parent = z->parent.lock();
-                    grandpa = parent->parent.lock();
+                    updateAncestors(z);
                 }
                 parent->color = NodeColor::black;
                 grandpa->color = NodeColor::red;
@@ -31,7 +29,7 @@ void InsertFixuper::FixUp(std::shared_ptr<Node> z)
             }
         }
         else {
-            auto uncle = grandpa->left;
+            auto uncle = getUncle();
             if (RBTree::isRed(uncle)) {
                 parent->color = NodeColor::black;
                 uncle->color = NodeColor::black;
@@ -42,8 +40,7 @@ void InsertFixuper::FixUp(std::shared_ptr<Node> z)
                 if (RBTree::isLeftDesc(z)) {
                     z = parent;
                     tree.RightRotate(z);
-                    parent = z->parent.lock();
-                    grandpa = parent->parent.lock();
+                    updateAncestors(z);
                 }
                 parent->color = NodeColor::black;
                 grandpa->color = NodeColor::red;
@@ -52,4 +49,16 @@ void InsertFixuper::FixUp(std::shared_ptr<Node> z)
         }
     }
     tree.root->color = NodeColor::black;
+}
+
+void InsertFixuper::updateAncestors(const std::shared_ptr<Node>& child)
+{
+    parent = child->parent.lock();
+    grandpa = parent->parent.lock();
+}
+
+std::shared_ptr<Node> InsertFixuper::getUncle() const
+{
+
+    return RBTree::isLeftDesc(parent) ? grandpa->right : grandpa->left;
 }
