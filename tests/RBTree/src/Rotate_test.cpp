@@ -1,7 +1,7 @@
 #include "RBTree.h"
 #include <gtest/gtest.h>
 
-class Rotate_fixture : public testing::Test
+class RBTree_fixture : public testing::Test
 {
 protected:
     void SetUp() override
@@ -40,7 +40,7 @@ protected:
     RBTree tree;
 };
 
-TEST_F(Rotate_fixture, LeftRootRotate)
+TEST_F(RBTree_fixture, LeftRootRotate)
 {
     tree.LeftRotate(tree.root);
     EXPECT_EQ(tree.root->value, 15);
@@ -50,7 +50,7 @@ TEST_F(Rotate_fixture, LeftRootRotate)
     EXPECT_EQ(tree.root->left->right->value, 13);
 }
 
-TEST_F(Rotate_fixture, RightRootRotate)
+TEST_F(RBTree_fixture, RightRootRotate)
 {
     tree.RightRotate(tree.root);
     EXPECT_EQ(tree.root->value, 5);
@@ -60,7 +60,7 @@ TEST_F(Rotate_fixture, RightRootRotate)
     EXPECT_EQ(tree.root->right->right->value, 15);
 }
 
-TEST_F(Rotate_fixture, LeftRotate)
+TEST_F(RBTree_fixture, LeftRotate)
 {
     tree.LeftRotate(tree.root->left);
     EXPECT_EQ(tree.root->value, 10);
@@ -75,7 +75,7 @@ TEST_F(Rotate_fixture, LeftRotate)
               tree.root->left->left);
 }
 
-TEST_F(Rotate_fixture, RightRotate)
+TEST_F(RBTree_fixture, RightRotate)
 {
     tree.RightRotate(tree.root->left);
     EXPECT_EQ(tree.root->value, 10);

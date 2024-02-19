@@ -1,4 +1,5 @@
 #include "RBTree.h"
+#include "InsertFixuper.h"
 
 void RBTree::Insert(int value)
 {
@@ -9,17 +10,7 @@ void RBTree::Insert(int value)
 
 void RBTree::InsertNode(std::shared_ptr<Node> z)
 {
-    std::shared_ptr<Node> parent{nullptr};
-    auto x = root;
-    while (x != nullptr) {
-        parent = x;
-        if (z->value < x->value) {
-            x = x->left;
-        }
-        else {
-            x = x->right;
-        }
-    }
+    std::shared_ptr<Node> parent = findParent(z->value);
     z->parent = parent;
     if (parent == nullptr) {
         root = z;
@@ -31,7 +22,82 @@ void RBTree::InsertNode(std::shared_ptr<Node> z)
         parent->right = z;
     }
     z->color = NodeColor::red;
-    // InsertFixup
+    doInsertFixUp(std::move(z));
+}
+
+std::shared_ptr<Node> RBTree::findParent(int value)
+{
+    std::shared_ptr<Node> parent{nullptr};
+    auto x = root;
+    while (x != nullptr) {
+        parent = x;
+        if (value < x->value) {
+            x = x->left;
+        }
+        else {
+            x = x->right;
+        }
+    }
+    return parent;
+}
+
+void RBTree::doInsertFixUp(std::shared_ptr<Node> x)
+{
+    InsertFixuper fixuper(*this);
+    fixuper.FixUp(std::move(x));
+}
+
+void RBTree::Delete(std::shared_ptr<Node>& z)
+{
+    auto y = z;
+    NodeColor y_original_color = y->color;
+    std::shared_ptr<Node> x{nullptr};
+    if (z->left == nullptr) {
+        x = z->right;
+        Transplant(z, z->right);
+    }
+    else if (z->right == nullptr) {
+        x = z->left;
+        Transplant(z, z->left);
+    }
+    else {
+        y = minimumDesc(z->right);
+        y_original_color = y->color;
+        x = y->right;
+        if (y->parent.lock() == z) {
+            x->parent = y;
+        }
+        else {
+            Transplant(y, y->right);
+            y->right = z->right;
+            y->right->parent = y;
+        }
+        Transplant(z, y);
+        y->left = z->left;
+        y->left->parent = y;
+        y->color = z->color;
+    }
+    if (y_original_color == NodeColor::black) {
+        // FixUp
+    }
+}
+
+void RBTree::Transplant(std::shared_ptr<Node> u, std::shared_ptr<Node> v)
+{
+    if (u->parent.expired()) {
+        root = v;
+    }
+    else if (isLeftDesc(u)) {
+        auto parent = u->parent.lock();
+        parent->left = v;
+    }
+    else {
+        auto parent = u->parent.lock();
+        parent->right = v;
+    }
+    if (v != nullptr) {
+        v->parent = u->parent;
+    }
 }
 
 void RBTree::LeftRotate(std::shared_ptr<Node> x)
@@ -84,4 +150,12 @@ bool RBTree::isRightDesc(const std::shared_ptr<Node>& x)
 bool RBTree::isRed(const std::shared_ptr<Node>& x)
 {
     return x ? x->color == NodeColor::red : false;
+}
+
+std::shared_ptr<Node> minimumDesc(std::shared_ptr<Node> x)
+{
+    while (x->left != nullptr) {
+        x = x->left;
+    }
+    return x;
 }
