@@ -65,7 +65,9 @@ void RBTree::Delete(std::shared_ptr<Node>& z)
         y_original_color = y->color;
         x = y->right;
         if (y->parent.lock() == z) {
-            x->parent = y;
+            if (x != nullptr) {
+                x->parent = y;
+            }
         }
         else {
             Transplant(y, y->right);
