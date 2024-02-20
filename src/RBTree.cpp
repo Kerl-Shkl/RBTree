@@ -159,7 +159,7 @@ bool RBTree::isBlack(const std::shared_ptr<Node>& x)
     return !isRed(x);
 }
 
-std::shared_ptr<Node> minimumDesc(std::shared_ptr<Node> x)
+std::shared_ptr<Node> RBTree::minimumDesc(std::shared_ptr<Node> x)
 {
     while (x->left != nullptr) {
         x = x->left;
