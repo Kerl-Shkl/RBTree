@@ -1,3 +1,4 @@
+#include "IsCorrectRBT.h"
 #include "RBTree.h"
 #include <gtest/gtest.h>
 
@@ -32,4 +33,16 @@ TEST_F(RBTree_fixture, InsertWithoutFixup)
     EXPECT_EQ(tree.root->value, 5);
     EXPECT_EQ(tree.root->left->value, 2);
     EXPECT_EQ(tree.root->right->value, 10);
+}
+
+TEST_F(RBTree_fixture, isRBTreeCorrect_test)
+{
+    tree.Insert(5);
+    tree.Insert(7);
+    tree.Insert(10);
+    tree.Insert(13);
+    tree.Insert(2);
+    tree.Insert(3);
+
+    EXPECT_TRUE(isRBTreeCorrect(tree));
 }
