@@ -8,7 +8,7 @@ function(create_dummy_test SOURCE_NAME)
 endfunction()
 
 set(TEST_FILES Rotate_test.cpp InsertFixuper_test.cpp Insert_test.cpp
-    DeleteFixuper_test.cpp IsCorrectRBT_test.cpp)
+    DeleteFixuper_test.cpp IsCorrectRBT_test.cpp Delete_test.cpp)
 foreach(TEST_FILE ${TEST_FILES})
     create_dummy_test(${TEST_FILE})
 endforeach()

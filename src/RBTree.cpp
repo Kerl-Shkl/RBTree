@@ -1,4 +1,5 @@
 #include "RBTree.h"
+#include "DeleteFixuper.h"
 #include "InsertFixuper.h"
 
 void RBTree::Insert(int value)
@@ -80,7 +81,8 @@ void RBTree::Delete(std::shared_ptr<Node>& z)
         y->color = z->color;
     }
     if (y_original_color == NodeColor::black) {
-        // FixUp
+        DeleteFixuper fixuper(*this);
+        fixuper.MyFixUp(x);
     }
 }
 

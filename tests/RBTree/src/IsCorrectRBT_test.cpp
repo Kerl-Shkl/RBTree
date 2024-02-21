@@ -93,3 +93,10 @@ TEST(IsCorrectRBT, IncorrectOrder)
 
     EXPECT_FALSE(isRBTreeCorrect(tree));
 }
+
+TEST(IsCorrectRBT, empty)
+{
+    RBTree tree;
+
+    EXPECT_TRUE(isRBTreeCorrect(tree));
+}
