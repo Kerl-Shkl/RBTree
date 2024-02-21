@@ -1,5 +1,4 @@
-#include "IsCorrectRBT.h"
-#include "RBTree.h"
+#include "TestRBTree.h"
 #include <gtest/gtest.h>
 
 class Delete_fixture : public testing::Test
@@ -27,19 +26,43 @@ protected:
         tree.Insert(35);
         tree.Insert(39);
         tree.Insert(3);
+        ASSERT_TRUE(tree.IsTreeCorrect());
     }
 
-    RBTree tree;
+    TestRBTree tree;
 };
 
 TEST_F(Delete_fixture, FromLeft)
 {
-    auto left = tree.root->left->left;
-    ASSERT_TRUE(isRBTreeCorrect(tree));
+    auto left = tree.getRoot()->left->left;
     ASSERT_NE(left, nullptr);
 
-    tree.Delete(left);
+    int old_size = tree.Size();
+    int value = left->value;
+    auto it = tree.Find(value);
+    auto expected_new_it = it;
+    ++expected_new_it;
 
-    EXPECT_TRUE(isRBTreeCorrect(tree));
-    EXPECT_NE(tree.root->left->left, left);
+    auto new_it = tree.Delete(it);
+
+    EXPECT_TRUE(tree.IsTreeCorrect());
+    EXPECT_EQ(old_size, tree.Size() + 1);
+    EXPECT_FALSE(tree.Contain(value));
+    EXPECT_EQ(*new_it, *expected_new_it);
+}
+
+TEST_F(Delete_fixture, FromRoot)
+{
+    int old_size = tree.Size();
+    int value = tree.getRoot()->value;
+    auto it = tree.Find(value);
+    auto expected_new_it = it;
+    ++expected_new_it;
+
+    auto new_it = tree.Delete(it);
+
+    EXPECT_TRUE(tree.IsTreeCorrect());
+    EXPECT_EQ(old_size, tree.Size() + 1);
+    EXPECT_FALSE(tree.Contain(value));
+    EXPECT_EQ(*new_it, *expected_new_it);
 }

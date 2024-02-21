@@ -24,6 +24,12 @@ RBIterator RBTreeRefactor::Find(int value) const
     return RBIterator{node};
 }
 
+bool RBTreeRefactor::Contain(int value) const
+{
+    auto it = Find(value);
+    return it != end();
+}
+
 size_t RBTreeRefactor::Size() const
 {
     return getSize(root);

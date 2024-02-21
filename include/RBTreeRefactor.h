@@ -9,6 +9,7 @@ public:
     virtual RBIterator Insert(int value) override;
     virtual RBIterator Delete(RBIterator it) override;
     virtual RBIterator Find(int value) const override;
+    virtual bool Contain(int value) const override;
     virtual size_t Size() const override;
     virtual RBIterator begin() const override;
     virtual RBIterator end() const override;
@@ -20,9 +21,9 @@ protected:
     virtual void LeftRotate(std::shared_ptr<Node> x) override;
     virtual void RightRotate(std::shared_ptr<Node> x) override;
 
-    virtual void
-    Rotate(std::shared_ptr<Node>& x, std::shared_ptr<Node> Node::*first_desc,
-           std::shared_ptr<Node> Node::*second_desc);
+    virtual void Rotate(std::shared_ptr<Node>& x,
+                        std::shared_ptr<Node> Node::*first_desc,
+                        std::shared_ptr<Node> Node::*second_desc);
     virtual void Transplant(std::shared_ptr<Node> u, std::shared_ptr<Node> v);
     virtual void InsertNode(std::shared_ptr<Node> x);
     virtual void DeleteNode(std::shared_ptr<Node> x);

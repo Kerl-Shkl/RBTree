@@ -11,6 +11,7 @@ public:
     virtual RBIterator Insert(int value) = 0;
     virtual RBIterator Delete(RBIterator it) = 0;
     virtual RBIterator Find(int value) const = 0;
+    virtual bool Contain(int value) const = 0;
     virtual RBIterator begin() const = 0;
     virtual RBIterator end() const = 0;
     virtual size_t Size() const = 0;

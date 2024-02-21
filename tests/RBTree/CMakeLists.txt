@@ -7,9 +7,7 @@ function(create_dummy_test SOURCE_NAME)
     gtest_discover_tests(${TARGET_NAME})
 endfunction()
 
-#Rotate_test.cpp
-#DeleteFixuper_test.cpp IsCorrectRBT_test.cpp Delete_test.cpp)
-set(TEST_FILES InsertFixuper_test.cpp Insert_test.cpp HelpMethods_test.cpp Rotate_test.cpp Iterator_test.cpp TestRBTree_test.cpp)
+set(TEST_FILES InsertFixuper_test.cpp Insert_test.cpp HelpMethods_test.cpp Rotate_test.cpp Iterator_test.cpp TestRBTree_test.cpp Delete_test.cpp)
 foreach(TEST_FILE ${TEST_FILES})
     create_dummy_test(${TEST_FILE})
 endforeach()
