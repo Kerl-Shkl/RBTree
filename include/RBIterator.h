@@ -2,13 +2,19 @@
 #define INCLUDE_RBITERATOR_H
 
 #include "Node.h"
-#include <iterator>
+// #include <iterator>
 
 class IRBTree;
 
-class RBIterator : std::iterator<std::bidirectional_iterator_tag, int>
+class RBIterator  
 {
 public:
+    using iterator_category = std::bidirectional_iterator_tag;
+    using value_type = int;
+    using difference_type = int;
+    using pointer = int *;
+    using reference = int&;
+
     explicit RBIterator(const IRBTree& tree);
     const int& operator*();
     RBIterator& operator++();
