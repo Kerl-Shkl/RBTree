@@ -27,10 +27,10 @@ protected:
     virtual void LeftRotate(std::shared_ptr<Node> x) = 0;
     virtual void RightRotate(std::shared_ptr<Node> x) = 0;
 
-    virtual bool isLeftDesc(const std::shared_ptr<Node>& x);
-    virtual bool isRightDesc(const std::shared_ptr<Node>& x);
-    virtual bool isRed(const std::shared_ptr<Node>& x);
-    virtual bool isBlack(const std::shared_ptr<Node>& x);
+    virtual bool isLeftDesc(const std::shared_ptr<Node>& x) const;
+    virtual bool isRightDesc(const std::shared_ptr<Node>& x) const;
+    virtual bool isRed(const std::shared_ptr<Node>& x) const;
+    virtual bool isBlack(const std::shared_ptr<Node>& x) const;
 
     friend class RBIterator;
     friend class InsertFixuper;

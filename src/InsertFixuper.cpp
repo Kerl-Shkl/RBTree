@@ -54,7 +54,7 @@ void InsertFixuper::SolveRotation(std::shared_ptr<Node>& z)
 
 void InsertFixuper::doSolveRotation(
     std::shared_ptr<Node>& z,
-    bool (IRBTree::*isSideDesc)(const std::shared_ptr<Node>&),
+    bool (IRBTree::*isSideDesc)(const std::shared_ptr<Node>&) const,
     void (IRBTree::*firstRotate)(std::shared_ptr<Node>),
     void (IRBTree::*secondRotate)(std::shared_ptr<Node>))
 {

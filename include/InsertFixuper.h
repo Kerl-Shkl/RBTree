@@ -16,11 +16,11 @@ private:
     void updateAncestors(const std::shared_ptr<Node>& child);
     std::shared_ptr<Node> getUncle() const;
     void SolveRotation(std::shared_ptr<Node>& z);
-    void
-    doSolveRotation(std::shared_ptr<Node>& z,
-                    bool (IRBTree::*isSideDesc)(const std::shared_ptr<Node>&),
-                    void (IRBTree::*firstRotate)(std::shared_ptr<Node>),
-                    void (IRBTree::*secondRotate)(std::shared_ptr<Node>));
+    void doSolveRotation(
+        std::shared_ptr<Node>& z,
+        bool (IRBTree::*isSideDesc)(const std::shared_ptr<Node>&) const,
+        void (IRBTree::*firstRotate)(std::shared_ptr<Node>),
+        void (IRBTree::*secondRotate)(std::shared_ptr<Node>));
 
     IRBTree& tree;
     std::shared_ptr<Node> parent;

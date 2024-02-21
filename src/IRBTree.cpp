@@ -24,23 +24,23 @@ std::shared_ptr<Node> IRBTree::maximumDesc(std::shared_ptr<Node> x)
     return x;
 }
 
-bool IRBTree::isLeftDesc(const std::shared_ptr<Node>& x)
+bool IRBTree::isLeftDesc(const std::shared_ptr<Node>& x) const
 {
     auto parent = x->parent.lock();
     return parent->left == x;
 }
 
-bool IRBTree::isRightDesc(const std::shared_ptr<Node>& x)
+bool IRBTree::isRightDesc(const std::shared_ptr<Node>& x) const
 {
     return !isLeftDesc(x);
 }
 
-bool IRBTree::isRed(const std::shared_ptr<Node>& x)
+bool IRBTree::isRed(const std::shared_ptr<Node>& x) const
 {
     return x ? x->color == NodeColor::red : false;
 }
 
-bool IRBTree::isBlack(const std::shared_ptr<Node>& x)
+bool IRBTree::isBlack(const std::shared_ptr<Node>& x) const
 {
     return !isRed(x);
 }

@@ -1,5 +1,4 @@
-#include "IsCorrectRBT.h"
-#include "RBTree.h"
+#include "TestRBTree.h"
 #include <gtest/gtest.h>
 
 TEST(IsCorrectRBT, Correct)
@@ -21,10 +20,10 @@ TEST(IsCorrectRBT, Correct)
     r->left = rl;
     l->left = ll;
     l->right = lr;
-    RBTree tree;
-    tree.root = root;
+    TestRBTree tree;
+    tree.getRoot() = root;
 
-    EXPECT_TRUE(isRBTreeCorrect(tree));
+    EXPECT_TRUE(tree.IsTreeCorrect());
 }
 
 TEST(IsCorrectRBT, RedRoot)
@@ -38,10 +37,10 @@ TEST(IsCorrectRBT, RedRoot)
 
     root->left = l;
     root->right = r;
-    RBTree tree;
-    tree.root = root;
+    TestRBTree tree;
+    tree.getRoot() = root;
 
-    EXPECT_FALSE(isRBTreeCorrect(tree));
+    EXPECT_FALSE(tree.IsTreeCorrect());
 }
 
 TEST(IsCorrectRBT, DiffBlackQuantities)
@@ -63,10 +62,10 @@ TEST(IsCorrectRBT, DiffBlackQuantities)
     r->left = rl;
     l->left = ll;
     l->right = lr;
-    RBTree tree;
-    tree.root = root;
+    TestRBTree tree;
+    tree.getRoot() = root;
 
-    EXPECT_FALSE(isRBTreeCorrect(tree));
+    EXPECT_FALSE(tree.IsTreeCorrect());
 }
 
 TEST(IsCorrectRBT, IncorrectOrder)
@@ -88,15 +87,15 @@ TEST(IsCorrectRBT, IncorrectOrder)
     r->left = rl;
     l->left = ll;
     l->right = lr;
-    RBTree tree;
-    tree.root = root;
+    TestRBTree tree;
+    tree.getRoot() = root;
 
-    EXPECT_FALSE(isRBTreeCorrect(tree));
+    EXPECT_FALSE(tree.IsTreeCorrect());
 }
 
 TEST(IsCorrectRBT, empty)
 {
-    RBTree tree;
+    TestRBTree tree;
 
-    EXPECT_TRUE(isRBTreeCorrect(tree));
+    EXPECT_TRUE(tree.IsTreeCorrect());
 }
