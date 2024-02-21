@@ -1,9 +1,9 @@
 #include "RBIterator.h"
-#include "RBTree.h"
+#include "IRBTree.h"
 
-RBIterator::RBIterator(const RBTree& tree)
+RBIterator::RBIterator(const IRBTree& tree)
 {
-    node = tree.getRoot();
+    node = tree.begin().node;
 }
 
 const int& RBIterator::operator*()
@@ -59,3 +59,7 @@ std::shared_ptr<Node> RBIterator::getNode()
 {
     return node;
 }
+
+RBIterator::RBIterator(std::shared_ptr<Node> node)
+: node(std::move(node))
+{}
