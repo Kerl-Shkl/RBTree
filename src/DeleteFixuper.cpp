@@ -1,13 +1,13 @@
 #include "DeleteFixuper.h"
-#include "RBTree.h"
+#include "IRBTree.h"
 
-DeleteFixuper::DeleteFixuper(RBTree& tree)
+DeleteFixuper::DeleteFixuper(IRBTree& tree)
 : tree(tree)
 {}
 
 void DeleteFixuper::MyFixUp(std::shared_ptr<Node> x)
 {
-    while (x != tree.root && RBTree::isBlack(x)) {
+    while (x != tree.getRoot() && tree.isBlack(x)) {
         setParentAndSibling(x);
         if (isFirstCase()) {
             solveFirstCase(x);
@@ -25,7 +25,76 @@ void DeleteFixuper::MyFixUp(std::shared_ptr<Node> x)
     x->color = NodeColor::black;
 }
 
-void DeleteFixuper::FixUp(std::shared_ptr<Node> x)
+void DeleteFixuper::setParentAndSibling(const std::shared_ptr<Node>& x)
+{
+    parent = x->parent.lock();
+    sibling = tree.isLeftDesc(x) ? parent->right : parent->left;
+}
+
+bool DeleteFixuper::isFirstCase() const
+{
+    return tree.isRed(sibling);
+}
+
+bool DeleteFixuper::isSecondCase() const
+{
+    return tree.isBlack(sibling->left) && tree.isBlack(sibling->right);
+}
+
+bool DeleteFixuper::isThirdCase() const
+{
+    auto sibling_desc =
+        tree.isLeftDesc(sibling) ? sibling->left : sibling->right;
+    return tree.isBlack(sibling_desc);
+}
+
+void DeleteFixuper::solveFirstCase(std::shared_ptr<Node>& x)
+{
+    sibling->color = NodeColor::black;
+    parent->color = NodeColor::red;
+    if (tree.isLeftDesc(x)) {
+        tree.LeftRotate(parent);
+    }
+    else {
+        tree.RightRotate(parent);
+    }
+    setParentAndSibling(x);
+}
+
+void DeleteFixuper::solveSecondCase(std::shared_ptr<Node>& x)
+{
+    sibling->color = NodeColor::red;
+    x = parent;
+}
+
+void DeleteFixuper::solveThirdCase(std::shared_ptr<Node>& x)
+{
+    sibling->right->color = NodeColor::black;
+    sibling->color = NodeColor::red;
+    if (tree.isLeftDesc(x)) {
+        tree.RightRotate(sibling);
+    }
+    else {
+        tree.LeftRotate(sibling);
+    }
+    setParentAndSibling(x);
+}
+
+void DeleteFixuper::solveFourthCase(std::shared_ptr<Node>& x)
+{
+    sibling->color = parent->color;
+    parent->color = NodeColor::black;
+    sibling->right->color = NodeColor::black;
+    if (tree.isLeftDesc(x)) {
+        tree.LeftRotate(parent);
+    }
+    else {
+        tree.RightRotate(parent);
+    }
+    x = tree.getRoot();
+}
+
+/* void DeleteFixuper::FixUp(std::shared_ptr<Node> x)
 {
     while (x != tree.root && RBTree::isBlack(x)) {
         if (RBTree::isLeftDesc(x)) {
@@ -92,73 +161,4 @@ void DeleteFixuper::FixUp(std::shared_ptr<Node> x)
         }
     }
     x->color = NodeColor::black;
-}
-
-void DeleteFixuper::setParentAndSibling(const std::shared_ptr<Node>& x)
-{
-    parent = x->parent.lock();
-    sibling = RBTree::isLeftDesc(x) ? parent->right : parent->left;
-}
-
-bool DeleteFixuper::isFirstCase() const
-{
-    return RBTree::isRed(sibling);
-}
-
-bool DeleteFixuper::isSecondCase() const
-{
-    return RBTree::isBlack(sibling->left) && RBTree::isBlack(sibling->right);
-}
-
-bool DeleteFixuper::isThirdCase() const
-{
-    auto sibling_desc =
-        RBTree::isLeftDesc(sibling) ? sibling->left : sibling->right;
-    return RBTree::isBlack(sibling_desc);
-}
-
-void DeleteFixuper::solveFirstCase(std::shared_ptr<Node>& x)
-{
-    sibling->color = NodeColor::black;
-    parent->color = NodeColor::red;
-    if (RBTree::isLeftDesc(x)) {
-        tree.LeftRotate(parent);
-    }
-    else {
-        tree.RightRotate(parent);
-    }
-    setParentAndSibling(x);
-}
-
-void DeleteFixuper::solveSecondCase(std::shared_ptr<Node>& x)
-{
-    sibling->color = NodeColor::red;
-    x = parent;
-}
-
-void DeleteFixuper::solveThirdCase(std::shared_ptr<Node>& x)
-{
-    sibling->right->color = NodeColor::black;
-    sibling->color = NodeColor::red;
-    if (RBTree::isLeftDesc(x)) {
-        tree.RightRotate(sibling);
-    }
-    else {
-        tree.LeftRotate(sibling);
-    }
-    setParentAndSibling(x);
-}
-
-void DeleteFixuper::solveFourthCase(std::shared_ptr<Node>& x)
-{
-    sibling->color = parent->color;
-    parent->color = NodeColor::black;
-    sibling->right->color = NodeColor::black;
-    if (RBTree::isLeftDesc(x)) {
-        tree.LeftRotate(parent);
-    }
-    else {
-        tree.RightRotate(parent);
-    }
-    x = tree.root;
-}
+} */

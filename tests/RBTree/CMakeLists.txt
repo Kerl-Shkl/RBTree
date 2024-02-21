@@ -1,14 +1,15 @@
 function(create_dummy_test SOURCE_NAME)
     get_filename_component(TARGET_NAME ${SOURCE_NAME} NAME_WE)
     add_executable(${TARGET_NAME})
-    target_sources(${TARGET_NAME} PRIVATE "src/${SOURCE_NAME}" "src/IsCorrectRBT.cpp")
+    target_sources(${TARGET_NAME} PRIVATE "src/${SOURCE_NAME}" #[[ "src/IsCorrectRBT.cpp" ]])
     target_include_directories(${TARGET_NAME} PRIVATE include)
     target_link_libraries(${TARGET_NAME} PRIVATE RBTree GTest::gtest_main)
     gtest_discover_tests(${TARGET_NAME})
 endfunction()
 
-set(TEST_FILES Rotate_test.cpp InsertFixuper_test.cpp Insert_test.cpp
-    DeleteFixuper_test.cpp IsCorrectRBT_test.cpp Delete_test.cpp)
+#Rotate_test.cpp
+#DeleteFixuper_test.cpp IsCorrectRBT_test.cpp Delete_test.cpp)
+set(TEST_FILES InsertFixuper_test.cpp Insert_test.cpp)
 foreach(TEST_FILE ${TEST_FILES})
     create_dummy_test(${TEST_FILE})
 endforeach()

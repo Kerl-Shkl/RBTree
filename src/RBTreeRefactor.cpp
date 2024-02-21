@@ -1,7 +1,6 @@
 #include "DeleteFixuper.h"
 #include "InsertFixuper.h"
 #include <RBTreeRefactor.h>
-#include <exception>
 
 RBIterator RBTreeRefactor::Insert(int value)
 {
@@ -179,29 +178,5 @@ std::shared_ptr<Node> RBTreeRefactor::findFutureParent(int value)
 
 std::shared_ptr<Node> RBTreeRefactor::minimumDesc(std::shared_ptr<Node> x)
 {
-    while (x->left != nullptr) {
-        x = x->left;
-    }
-    return x;
-}
-
-bool RBTreeRefactor::isLeftDesc(const std::shared_ptr<Node>& x)
-{
-    auto parent = x->parent.lock();
-    return parent->left == x;
-}
-
-bool RBTreeRefactor::isRightDesc(const std::shared_ptr<Node>& x)
-{
-    return !isLeftDesc(x);
-}
-
-bool RBTreeRefactor::isRed(const std::shared_ptr<Node>& x)
-{
-    return x ? x->color == NodeColor::red : false;
-}
-
-bool RBTreeRefactor::isBlack(const std::shared_ptr<Node>& x)
-{
-    return !isRed(x);
+    return IRBTree::minimumDesc(std::move(x));
 }

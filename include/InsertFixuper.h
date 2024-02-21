@@ -3,12 +3,12 @@
 
 #include "Node.h"
 
-class RBTree;
+class IRBTree;
 
 class InsertFixuper
 {
 public:
-    InsertFixuper(RBTree& rbtree);
+    InsertFixuper(IRBTree& rbtree);
     void FixUp(std::shared_ptr<Node> z);
 
 private:
@@ -16,12 +16,13 @@ private:
     void updateAncestors(const std::shared_ptr<Node>& child);
     std::shared_ptr<Node> getUncle() const;
     void SolveRotation(std::shared_ptr<Node>& z);
-    void doSolveRotation(std::shared_ptr<Node>& z,
-                         bool (*isSideDesc)(const std::shared_ptr<Node>&),
-                         void (RBTree::*firstRotate)(std::shared_ptr<Node>),
-                         void (RBTree::*secondRotate)(std::shared_ptr<Node>));
+    void
+    doSolveRotation(std::shared_ptr<Node>& z,
+                    bool (IRBTree::*isSideDesc)(const std::shared_ptr<Node>&),
+                    void (IRBTree::*firstRotate)(std::shared_ptr<Node>),
+                    void (IRBTree::*secondRotate)(std::shared_ptr<Node>));
 
-    RBTree& tree;
+    IRBTree& tree;
     std::shared_ptr<Node> parent;
     std::shared_ptr<Node> grandpa;
 };

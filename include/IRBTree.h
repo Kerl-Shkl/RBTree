@@ -19,8 +19,18 @@ public:
 protected:
     virtual std::shared_ptr<Node>& getRoot() = 0;
     virtual const std::shared_ptr<Node>& getRoot() const = 0;
+    virtual std::shared_ptr<Node> minimumDesc(std::shared_ptr<Node> x) = 0;
+    virtual void LeftRotate(std::shared_ptr<Node> x) = 0;
+    virtual void RightRotate(std::shared_ptr<Node> x) = 0;
+
+    virtual bool isLeftDesc(const std::shared_ptr<Node>& x);
+    virtual bool isRightDesc(const std::shared_ptr<Node>& x);
+    virtual bool isRed(const std::shared_ptr<Node>& x);
+    virtual bool isBlack(const std::shared_ptr<Node>& x);
 
     friend class RBIterator;
+    friend class InsertFixuper;
+    friend class DeleteFixuper;
 };
 
 #endif  // end of include guard: INCLUDE_IRBTREE_H

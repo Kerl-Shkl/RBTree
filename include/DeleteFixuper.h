@@ -3,12 +3,12 @@
 
 #include "Node.h"
 
-class RBTree;
+class IRBTree;
 
 class DeleteFixuper
 {
 public:
-    DeleteFixuper(RBTree& tree);
+    DeleteFixuper(IRBTree& tree);
     void FixUp(std::shared_ptr<Node> x);
     void MyFixUp(std::shared_ptr<Node> x);
 
@@ -24,7 +24,7 @@ private:
 
     std::shared_ptr<Node> parent;
     std::shared_ptr<Node> sibling;
-    RBTree& tree;
+    IRBTree& tree;
 
     friend class DeleteFixuper_fixture;
 };

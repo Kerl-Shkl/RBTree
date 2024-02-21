@@ -1,21 +1,18 @@
 #include "InsertFixuper.h"
-#include "RBTree.h"
+#include "RBTreeRefactor.h"
 #include <gtest/gtest.h>
 
-class RBTree_fixture : public testing::Test
+class OpenedRBTree : public RBTreeRefactor
 {
-protected:
-    std::shared_ptr<Node>& getRoot()
-    {
-        return tree.root;
-    }
-
-    RBTree tree;
+public:
+    using RBTreeRefactor::getRoot;
 };
 
-TEST_F(RBTree_fixture, LeftLeft)
+TEST(InsertFixuperTest, LeftLeft)
 {
-    auto& root = getRoot();
+    OpenedRBTree tree;
+    auto& root = tree.getRoot();
+
     root = std::make_shared<Node>(Node{.value = 10, .color = NodeColor::black});
     root->left = std::make_shared<Node>(
         Node{.value = 5, .parent = root, .color = NodeColor::red});
@@ -30,9 +27,10 @@ TEST_F(RBTree_fixture, LeftLeft)
     EXPECT_EQ(root->right->value, 10);
 }
 
-TEST_F(RBTree_fixture, LeftRight)
+TEST(InsertFixuperTest, LeftRight)
 {
-    auto& root = getRoot();
+    OpenedRBTree tree;
+    auto& root = tree.getRoot();
     root = std::make_shared<Node>(Node{.value = 10, .color = NodeColor::black});
     root->left = std::make_shared<Node>(
         Node{.value = 5, .parent = root, .color = NodeColor::red});
@@ -47,9 +45,10 @@ TEST_F(RBTree_fixture, LeftRight)
     EXPECT_EQ(root->right->value, 10);
 }
 
-TEST_F(RBTree_fixture, RightLeft)
+TEST(InsertFixuperTest, RightLeft)
 {
-    auto& root = getRoot();
+    OpenedRBTree tree;
+    auto& root = tree.getRoot();
     root = std::make_shared<Node>(Node{.value = 10, .color = NodeColor::black});
     root->right = std::make_shared<Node>(
         Node{.value = 15, .parent = root, .color = NodeColor::red});
@@ -64,9 +63,10 @@ TEST_F(RBTree_fixture, RightLeft)
     EXPECT_EQ(root->right->value, 15);
 }
 
-TEST_F(RBTree_fixture, RightRight)
+TEST(InsertFixuperTest, RightRight)
 {
-    auto& root = getRoot();
+    OpenedRBTree tree;
+    auto& root = tree.getRoot();
     root = std::make_shared<Node>(Node{.value = 10, .color = NodeColor::black});
     root->right = std::make_shared<Node>(
         Node{.value = 15, .parent = root, .color = NodeColor::red});
@@ -81,9 +81,10 @@ TEST_F(RBTree_fixture, RightRight)
     EXPECT_EQ(root->right->value, 20);
 }
 
-TEST_F(RBTree_fixture, RedUncle)
+TEST(InsertFixuperTest, RedUncle)
 {
-    auto& root = getRoot();
+    OpenedRBTree tree;
+    auto& root = tree.getRoot();
     root = std::make_shared<Node>(Node{.value = 10, .color = NodeColor::black});
     root->left = std::make_shared<Node>(
         Node{.value = 5, .parent = root, .color = NodeColor::red});
