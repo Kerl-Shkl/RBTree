@@ -20,12 +20,13 @@ RBIterator RBTreeRefactor::Delete(RBIterator it)
 
 RBIterator RBTreeRefactor::Find(int value) const
 {
-    throw std::runtime_error{"Not implemented yet"};
+    auto node = findNodeWithValue(value);
+    return RBIterator{node};
 }
 
 size_t RBTreeRefactor::Size() const
 {
-    throw std::runtime_error{"Not implemented yet"};
+    return getSize(root);
 }
 
 RBIterator RBTreeRefactor::begin() const
@@ -165,7 +166,7 @@ void RBTreeRefactor::Rotate(std::shared_ptr<Node>& x,
     x->parent = second;
 }
 
-std::shared_ptr<Node> RBTreeRefactor::findFutureParent(int value)
+std::shared_ptr<Node> RBTreeRefactor::findFutureParent(int value) const
 {
     std::shared_ptr<Node> parent{nullptr};
     auto x = root;
@@ -179,4 +180,30 @@ std::shared_ptr<Node> RBTreeRefactor::findFutureParent(int value)
 std::shared_ptr<Node> RBTreeRefactor::minimumDesc(std::shared_ptr<Node> x)
 {
     return IRBTree::minimumDesc(std::move(x));
+}
+
+int RBTreeRefactor::getSize(const std::shared_ptr<Node>& x) const
+{
+    if (x == nullptr) {
+        return 0;
+    }
+    return 1 + getSize(x->left) + getSize(x->right);
+}
+
+std::shared_ptr<Node> RBTreeRefactor::findNodeWithValue(int value) const
+{
+    auto parent = findFutureParent(value);
+    if (hasValue(parent->left, value)) {
+        return parent->left;
+    }
+    if (hasValue(parent->right, value)) {
+        return parent->right;
+    }
+    return nullptr;
+}
+
+bool RBTreeRefactor::hasValue(const std::shared_ptr<Node>& node,
+                              int value) const
+{
+    return node != nullptr && node->value == value;
 }

@@ -25,13 +25,16 @@ protected:
     virtual void InsertNode(std::shared_ptr<Node> x);
     virtual void DeleteNode(std::shared_ptr<Node> x);
 
-protected:
+private:
     virtual void LeftRotate(std::shared_ptr<Node> x) override;
     virtual void RightRotate(std::shared_ptr<Node> x) override;
     void doInsertFixUp(std::shared_ptr<Node> x);
     void doDeleteFixUp(std::shared_ptr<Node> x);
-    std::shared_ptr<Node> findFutureParent(int value);
+    std::shared_ptr<Node> findFutureParent(int value) const;
     virtual std::shared_ptr<Node> minimumDesc(std::shared_ptr<Node> x) override;
+    int getSize(const std::shared_ptr<Node>& x) const;
+    std::shared_ptr<Node> findNodeWithValue(int value) const;
+    bool hasValue(const std::shared_ptr<Node>& node, int value) const;
 
     // static std::shared_ptr<Node> minimumDesc(std::shared_ptr<Node> x);
     // static bool isLeftDesc(const std::shared_ptr<Node>& x);
