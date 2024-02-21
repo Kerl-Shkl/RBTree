@@ -168,3 +168,13 @@ std::shared_ptr<Node> RBTree::minimumDesc(std::shared_ptr<Node> x)
     }
     return x;
 }
+
+std::shared_ptr<Node>& RBTree::getRoot()
+{
+    return root;
+}
+
+const std::shared_ptr<Node>& RBTree::getRoot() const
+{
+    return root;
+}
