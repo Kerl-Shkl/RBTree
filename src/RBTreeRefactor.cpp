@@ -192,12 +192,17 @@ int RBTreeRefactor::getSize(const std::shared_ptr<Node>& x) const
 
 std::shared_ptr<Node> RBTreeRefactor::findNodeWithValue(int value) const
 {
-    auto parent = findFutureParent(value);
-    if (hasValue(parent->left, value)) {
-        return parent->left;
-    }
-    if (hasValue(parent->right, value)) {
-        return parent->right;
+    std::shared_ptr<Node> node{root};
+    while (node != nullptr) {
+        if (node->value == value) {
+            return node;
+        }
+        else if (node->value < value) {
+            node = node->right;
+        }
+        else {
+            node = node->left;
+        }
     }
     return nullptr;
 }

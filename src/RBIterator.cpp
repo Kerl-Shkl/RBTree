@@ -63,3 +63,8 @@ std::shared_ptr<Node> RBIterator::getNode()
 RBIterator::RBIterator(std::shared_ptr<Node> node)
 : node(std::move(node))
 {}
+
+bool operator==(const RBIterator& a, const RBIterator& b)
+{
+    return a.node == b.node;
+}
