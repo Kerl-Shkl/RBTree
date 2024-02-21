@@ -19,7 +19,11 @@ public:
 protected:
     virtual std::shared_ptr<Node>& getRoot() = 0;
     virtual const std::shared_ptr<Node>& getRoot() const = 0;
-    virtual std::shared_ptr<Node> minimumDesc(std::shared_ptr<Node> x) = 0;
+    // virtual std::shared_ptr<Node>
+    // minimumDesc(std::shared_ptr<Node> x) const = 0;
+    static std::shared_ptr<Node> minimumDesc(std::shared_ptr<Node> x);
+    static std::shared_ptr<Node> maximumDesc(std::shared_ptr<Node> x);
+
     virtual void LeftRotate(std::shared_ptr<Node> x) = 0;
     virtual void RightRotate(std::shared_ptr<Node> x) = 0;
 

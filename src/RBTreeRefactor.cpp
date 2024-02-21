@@ -31,7 +31,7 @@ size_t RBTreeRefactor::Size() const
 
 RBIterator RBTreeRefactor::begin() const
 {
-    return RBIterator{root};
+    return RBIterator{minimumDesc(root)};
 }
 
 RBIterator RBTreeRefactor::end() const
@@ -177,10 +177,11 @@ std::shared_ptr<Node> RBTreeRefactor::findFutureParent(int value) const
     return parent;
 }
 
-std::shared_ptr<Node> RBTreeRefactor::minimumDesc(std::shared_ptr<Node> x)
-{
-    return IRBTree::minimumDesc(std::move(x));
-}
+// std::shared_ptr<Node> RBTreeRefactor::minimumDesc(std::shared_ptr<Node> x)
+// const
+// {
+//     return IRBTree::minimumDesc(std::move(x));
+// }
 
 int RBTreeRefactor::getSize(const std::shared_ptr<Node>& x) const
 {

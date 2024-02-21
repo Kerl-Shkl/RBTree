@@ -14,7 +14,7 @@ const int& RBIterator::operator*()
 RBIterator& RBIterator::operator++()
 {
     if (node->right != nullptr) {
-        node = node->right;
+        node = IRBTree::minimumDesc(node->right);
     }
     else {
         auto temp = node->parent.lock();
@@ -36,7 +36,7 @@ RBIterator RBIterator::operator++(int)
 RBIterator& RBIterator::operator--()
 {
     if (node->left != nullptr) {
-        node = node->left;
+        node = IRBTree::maximumDesc(node->left);
     }
     else {
         auto temp = node->parent.lock();

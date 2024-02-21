@@ -31,7 +31,8 @@ private:
     void doInsertFixUp(std::shared_ptr<Node> x);
     void doDeleteFixUp(std::shared_ptr<Node> x);
     std::shared_ptr<Node> findFutureParent(int value) const;
-    virtual std::shared_ptr<Node> minimumDesc(std::shared_ptr<Node> x) override;
+    // virtual std::shared_ptr<Node>
+    // minimumDesc(std::shared_ptr<Node> x) const override;
     int getSize(const std::shared_ptr<Node>& x) const;
     std::shared_ptr<Node> findNodeWithValue(int value) const;
     bool hasValue(const std::shared_ptr<Node>& node, int value) const;

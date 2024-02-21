@@ -1,9 +1,25 @@
 #include "IRBTree.h"
 
+// std::shared_ptr<Node> IRBTree::minimumDesc(std::shared_ptr<Node> x) const
+// {
+//     while (x->left != nullptr) {
+//         x = x->left;
+//     }
+//     return x;
+// }
+
 std::shared_ptr<Node> IRBTree::minimumDesc(std::shared_ptr<Node> x)
 {
     while (x->left != nullptr) {
         x = x->left;
+    }
+    return x;
+}
+
+std::shared_ptr<Node> IRBTree::maximumDesc(std::shared_ptr<Node> x)
+{
+    while (x->right != nullptr) {
+        x = x->right;
     }
     return x;
 }
