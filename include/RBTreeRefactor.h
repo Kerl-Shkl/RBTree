@@ -17,6 +17,8 @@ public:
 protected:
     virtual std::shared_ptr<Node>& getRoot() override;
     virtual const std::shared_ptr<Node>& getRoot() const override;
+    virtual void LeftRotate(std::shared_ptr<Node> x) override;
+    virtual void RightRotate(std::shared_ptr<Node> x) override;
 
     virtual void
     Rotate(std::shared_ptr<Node>& x, std::shared_ptr<Node> Node::*first_desc,
@@ -26,8 +28,6 @@ protected:
     virtual void DeleteNode(std::shared_ptr<Node> x);
 
 private:
-    virtual void LeftRotate(std::shared_ptr<Node> x) override;
-    virtual void RightRotate(std::shared_ptr<Node> x) override;
     void doInsertFixUp(std::shared_ptr<Node> x);
     void doDeleteFixUp(std::shared_ptr<Node> x);
     std::shared_ptr<Node> findFutureParent(int value) const;
@@ -36,15 +36,7 @@ private:
     std::shared_ptr<Node> findNodeWithValue(int value) const;
     bool hasValue(const std::shared_ptr<Node>& node, int value) const;
 
-    // static std::shared_ptr<Node> minimumDesc(std::shared_ptr<Node> x);
-    // static bool isLeftDesc(const std::shared_ptr<Node>& x);
-    // static bool isRightDesc(const std::shared_ptr<Node>& x);
-    // static bool isRed(const std::shared_ptr<Node>& x);
-    // static bool isBlack(const std::shared_ptr<Node>& x);
-
     std::shared_ptr<Node> root;
-
-    friend class InsertFixuper;
 };
 
 #endif  // end of include guard: INCLUDE_RBTREEREFACTOR_H

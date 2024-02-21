@@ -1,5 +1,13 @@
-#include "RBTree.h"
+#include "RBTreeRefactor.h"
 #include <gtest/gtest.h>
+
+class OpenRBTree : public RBTreeRefactor
+{
+public:
+    using RBTreeRefactor::getRoot;
+    using RBTreeRefactor::LeftRotate;
+    using RBTreeRefactor::RightRotate;
+};
 
 class RBTree_fixture : public testing::Test
 {
@@ -34,58 +42,60 @@ protected:
         rld->parent = rd;
         rrd->parent = rd;
 
-        tree.root = root;
+        tree.getRoot() = root;
     }
 
-    RBTree tree;
+    OpenRBTree tree;
 };
 
 TEST_F(RBTree_fixture, LeftRootRotate)
 {
-    tree.LeftRotate(tree.root);
-    EXPECT_EQ(tree.root->value, 15);
-    EXPECT_EQ(tree.root->left->value, 10);
-    EXPECT_EQ(tree.root->right->value, 17);
-    EXPECT_EQ(tree.root->left->left->value, 5);
-    EXPECT_EQ(tree.root->left->right->value, 13);
+    auto& root = tree.getRoot();
+    tree.LeftRotate(root);
+    EXPECT_EQ(root->value, 15);
+    EXPECT_EQ(root->left->value, 10);
+    EXPECT_EQ(root->right->value, 17);
+    EXPECT_EQ(root->left->left->value, 5);
+    EXPECT_EQ(root->left->right->value, 13);
 }
 
 TEST_F(RBTree_fixture, RightRootRotate)
 {
-    tree.RightRotate(tree.root);
-    EXPECT_EQ(tree.root->value, 5);
-    EXPECT_EQ(tree.root->left->value, 3);
-    EXPECT_EQ(tree.root->right->value, 10);
-    EXPECT_EQ(tree.root->right->left->value, 7);
-    EXPECT_EQ(tree.root->right->right->value, 15);
+    auto& root = tree.getRoot();
+    tree.RightRotate(root);
+    EXPECT_EQ(root->value, 5);
+    EXPECT_EQ(root->left->value, 3);
+    EXPECT_EQ(root->right->value, 10);
+    EXPECT_EQ(root->right->left->value, 7);
+    EXPECT_EQ(root->right->right->value, 15);
 }
 
 TEST_F(RBTree_fixture, LeftRotate)
 {
-    tree.LeftRotate(tree.root->left);
-    EXPECT_EQ(tree.root->value, 10);
-    EXPECT_EQ(tree.root->left->value, 7);
-    EXPECT_EQ(tree.root->right->value, 15);
-    EXPECT_EQ(tree.root->left->left->value, 5);
-    EXPECT_EQ(tree.root->left->left->left->value, 3);
+    auto& root = tree.getRoot();
+    tree.LeftRotate(root->left);
+    EXPECT_EQ(root->value, 10);
+    EXPECT_EQ(root->left->value, 7);
+    EXPECT_EQ(root->right->value, 15);
+    EXPECT_EQ(root->left->left->value, 5);
+    EXPECT_EQ(root->left->left->left->value, 3);
 
-    EXPECT_EQ(tree.root->left->parent.lock(), tree.root);
-    EXPECT_EQ(tree.root->left->left->parent.lock(), tree.root->left);
-    EXPECT_EQ(tree.root->left->left->left->parent.lock(),
-              tree.root->left->left);
+    EXPECT_EQ(root->left->parent.lock(), root);
+    EXPECT_EQ(root->left->left->parent.lock(), root->left);
+    EXPECT_EQ(root->left->left->left->parent.lock(), root->left->left);
 }
 
 TEST_F(RBTree_fixture, RightRotate)
 {
-    tree.RightRotate(tree.root->left);
-    EXPECT_EQ(tree.root->value, 10);
-    EXPECT_EQ(tree.root->left->value, 3);
-    EXPECT_EQ(tree.root->right->value, 15);
-    EXPECT_EQ(tree.root->left->right->value, 5);
-    EXPECT_EQ(tree.root->left->right->right->value, 7);
+    auto& root = tree.getRoot();
+    tree.RightRotate(root->left);
+    EXPECT_EQ(root->value, 10);
+    EXPECT_EQ(root->left->value, 3);
+    EXPECT_EQ(root->right->value, 15);
+    EXPECT_EQ(root->left->right->value, 5);
+    EXPECT_EQ(root->left->right->right->value, 7);
 
-    EXPECT_EQ(tree.root->left->parent.lock(), tree.root);
-    EXPECT_EQ(tree.root->left->right->parent.lock(), tree.root->left);
-    EXPECT_EQ(tree.root->left->right->right->parent.lock(),
-              tree.root->left->right);
+    EXPECT_EQ(root->left->parent.lock(), root);
+    EXPECT_EQ(root->left->right->parent.lock(), root->left);
+    EXPECT_EQ(root->left->right->right->parent.lock(), root->left->right);
 }
