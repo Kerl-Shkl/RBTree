@@ -65,7 +65,7 @@ DeleteFixuper::solveNoneTrivial(const std::shared_ptr<Node>& z)
     return x;
 }
 
-void DeleteFixuper::MyFixUp(std::shared_ptr<Node> x)
+void DeleteFixuper::MyFixUp(const std::shared_ptr<Node>& x)
 {
     while (x != tree.getRoot() && tree.isBlack(x)) {
         setParentAndSibling(x);
