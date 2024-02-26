@@ -6,26 +6,6 @@ DeleteFixuper::DeleteFixuper(IRBTree& tree)
 , tree(tree)
 {}
 
-std::shared_ptr<Node> DeleteFixuper::getProxy()
-{
-    if (proxy_nil == nullptr) {
-        proxy_nil = std::make_shared<Node>(Node{.color = NodeColor::black});
-    }
-    return proxy_nil;
-}
-
-void DeleteFixuper::addProxyNils(const std::shared_ptr<Node>& node)
-{
-    if (node->left == nullptr) {
-        node->left = getProxy();
-        proxy_nil->parent = node;
-    }
-    if (node->right == nullptr) {
-        node->right = getProxy();
-        proxy_nil->parent = node;
-    }
-}
-
 void DeleteFixuper::Delete(std::shared_ptr<Node> z)
 {
     std::shared_ptr<Node> x{nullptr};
@@ -39,14 +19,6 @@ void DeleteFixuper::Delete(std::shared_ptr<Node> z)
         MyFixUp(x);
     }
     clearProxy();
-}
-
-void DeleteFixuper::tryPaint(const std::shared_ptr<Node>& node,
-                             NodeColor color) const
-{
-    if (node != nullptr) {
-        node->color = color;
-    }
 }
 
 bool DeleteFixuper::isTrivial(const std::shared_ptr<const Node>& z) const
@@ -93,21 +65,6 @@ DeleteFixuper::solveNoneTrivial(const std::shared_ptr<Node>& z)
     return x;
 }
 
-void DeleteFixuper::clearProxy()
-{
-    if (proxy_nil == nullptr) {
-        return;
-    }
-    auto prox_parent = proxy_nil->parent.lock();
-    if (prox_parent->left == proxy_nil) {
-        prox_parent->left.reset();
-    }
-    if (prox_parent->right == proxy_nil) {
-        prox_parent->right.reset();
-    }
-    proxy_nil.reset();
-}
-
 void DeleteFixuper::MyFixUp(std::shared_ptr<Node> x)
 {
     while (x != tree.getRoot() && tree.isBlack(x)) {
@@ -126,6 +83,49 @@ void DeleteFixuper::MyFixUp(std::shared_ptr<Node> x)
         }
     }
     x->color = NodeColor::black;
+}
+
+void DeleteFixuper::addProxyNils(const std::shared_ptr<Node>& node)
+{
+    if (node->left == nullptr) {
+        node->left = getProxy();
+        proxy_nil->parent = node;
+    }
+    if (node->right == nullptr) {
+        node->right = getProxy();
+        proxy_nil->parent = node;
+    }
+}
+
+std::shared_ptr<Node> DeleteFixuper::getProxy()
+{
+    if (proxy_nil == nullptr) {
+        proxy_nil = std::make_shared<Node>(Node{.color = NodeColor::black});
+    }
+    return proxy_nil;
+}
+
+void DeleteFixuper::tryPaint(const std::shared_ptr<Node>& node,
+                             NodeColor color) const
+{
+    if (node != nullptr) {
+        node->color = color;
+    }
+}
+
+void DeleteFixuper::clearProxy()
+{
+    if (proxy_nil == nullptr) {
+        return;
+    }
+    auto prox_parent = proxy_nil->parent.lock();
+    if (prox_parent->left == proxy_nil) {
+        prox_parent->left.reset();
+    }
+    if (prox_parent->right == proxy_nil) {
+        prox_parent->right.reset();
+    }
+    proxy_nil.reset();
 }
 
 void DeleteFixuper::setParentAndSibling(const std::shared_ptr<Node>& x)
