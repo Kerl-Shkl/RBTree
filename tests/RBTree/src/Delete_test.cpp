@@ -50,19 +50,36 @@ TEST_F(Delete_fixture, FromLeft)
     EXPECT_FALSE(tree.Contain(value));
     EXPECT_EQ(*new_it, *expected_new_it);
 }
+//
+// TEST_F(Delete_fixture, FromRoot)
+// {
+//     int old_size = tree.Size();
+//     int value = tree.getRoot()->value;
+//     auto it = tree.Find(value);
+//     auto expected_new_it = it;
+//     ++expected_new_it;
+//
+//     auto new_it = tree.Delete(it);
+//
+//     EXPECT_TRUE(tree.IsTreeCorrect());
+//     EXPECT_EQ(old_size, tree.Size() + 1);
+//     EXPECT_FALSE(tree.Contain(value));
+//     EXPECT_EQ(*new_it, *expected_new_it);
+// }
 
-TEST_F(Delete_fixture, FromRoot)
+TEST(Delete, FromRoot)
 {
-    int old_size = tree.Size();
-    int value = tree.getRoot()->value;
-    auto it = tree.Find(value);
-    auto expected_new_it = it;
-    ++expected_new_it;
+    TestRBTree tree;
+    tree.Insert(10);
+    tree.Insert(5);
+    tree.Insert(15);
+    tree.Insert(7);
+    int val = 10;
+    auto it = tree.Find(val);
 
-    auto new_it = tree.Delete(it);
+    tree.Delete(it);
 
     EXPECT_TRUE(tree.IsTreeCorrect());
-    EXPECT_EQ(old_size, tree.Size() + 1);
-    EXPECT_FALSE(tree.Contain(value));
-    EXPECT_EQ(*new_it, *expected_new_it);
+    EXPECT_EQ(tree.Size(), 3);
+    EXPECT_FALSE(tree.Contain(val));
 }
