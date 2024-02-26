@@ -83,3 +83,20 @@ TEST(Delete, FromRoot)
     EXPECT_EQ(tree.Size(), 3);
     EXPECT_FALSE(tree.Contain(val));
 }
+
+TEST(Delete, TrivialNull)
+{
+    TestRBTree tree;
+    tree.Insert(10);
+    tree.Insert(5);
+    tree.Insert(15);
+    tree.Insert(7);
+    int val = 15;
+    auto it = tree.Find(val);
+
+    tree.Delete(it);
+
+    EXPECT_TRUE(tree.IsTreeCorrect());
+    EXPECT_EQ(tree.Size(), 3);
+    EXPECT_FALSE(tree.Contain(val));
+}

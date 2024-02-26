@@ -110,51 +110,14 @@ void RBTreeRefactor::InsertNode(std::shared_ptr<Node> z)
 
 void RBTreeRefactor::DeleteNode(std::shared_ptr<Node> z)
 {
-    auto y = z;
-    NodeColor y_original_color = y->color;
-    std::shared_ptr<Node> x{nullptr};
-    if (z->left == nullptr) {
-        x = z->right;
-        Transplant(z, z->right);
-    }
-    else if (z->right == nullptr) {
-        x = z->left;
-        Transplant(z, z->left);
-    }
-    else {
-        y = minimumDesc(z->right);
-        y_original_color = y->color;
-        x = y->right;
-        if (y->parent.lock() == z) {
-            if (x != nullptr) {
-                x->parent = y;
-            }
-        }
-        else {
-            Transplant(y, y->right);
-            y->right = z->right;
-            y->right->parent = y;
-        }
-        Transplant(z, y);
-        y->left = z->left;
-        y->left->parent = y;
-        y->color = z->color;
-    }
-    if (y_original_color == NodeColor::black) {
-        doDeleteFixUp(x);
-    }
+    DeleteFixuper deleter(*this);
+    deleter.Delete(z);
 }
 
 void RBTreeRefactor::doInsertFixUp(std::shared_ptr<Node> x)
 {
     InsertFixuper fixuper(*this);
     fixuper.FixUp(std::move(x));
-}
-
-void RBTreeRefactor::doDeleteFixUp(std::shared_ptr<Node> x)
-{
-    DeleteFixuper fixuper(*this);
-    fixuper.MyFixUp(std::move(x));
 }
 
 void RBTreeRefactor::Rotate(std::shared_ptr<Node>& x,
@@ -182,12 +145,6 @@ std::shared_ptr<Node> RBTreeRefactor::findFutureParent(int value) const
     }
     return parent;
 }
-
-// std::shared_ptr<Node> RBTreeRefactor::minimumDesc(std::shared_ptr<Node> x)
-// const
-// {
-//     return IRBTree::minimumDesc(std::move(x));
-// }
 
 int RBTreeRefactor::getSize(const std::shared_ptr<Node>& x) const
 {

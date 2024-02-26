@@ -20,8 +20,9 @@ public:
 protected:
     virtual std::shared_ptr<Node>& getRoot() = 0;
     virtual const std::shared_ptr<Node>& getRoot() const = 0;
-    // virtual std::shared_ptr<Node>
-    // minimumDesc(std::shared_ptr<Node> x) const = 0;
+    virtual void
+    Transplant(std::shared_ptr<Node> u, std::shared_ptr<Node> v) = 0;
+
     static std::shared_ptr<Node> minimumDesc(std::shared_ptr<Node> x);
     static std::shared_ptr<Node> maximumDesc(std::shared_ptr<Node> x);
 
